@@ -1,5 +1,3 @@
-# (c) github - @Rishikesh-Sharma09 ,telegram - https://telegram.me/Rk_botz
-# removing credits doesn't make you coder 
 
 # New better way of indexing and skipping added 
 
@@ -79,9 +77,12 @@ async def forceskip(client, message):
         try:
             skip = int(skip_msg.text)
         except:
-            await message.reply("InValid Number provided using 0 as a skip number")
+            await message.reply("Invalid number provided, using 0 as the skip number")
             skip = 0
-        msg = await client.get_messages(message.chat.id, reply_message.id) 
+        
+        # Initialize msg by fetching the message being replied to
+        msg = await client.get_messages(message.chat.id, reply_message.id)
+        
         info = msg.reply_to_message
         if info.text:
             regex = re.compile("(https://)?(t\.me/|telegram\.me/|telegram\.dog/)(c/)?(\d+|[a-zA-Z_0-9]+)/(\d+)$")
@@ -98,22 +99,22 @@ async def forceskip(client, message):
         else:
             return
 
-    await message.delete()
-    await msg.delete()
-    if message.from_user.id in ADMINS:      
-        buttons = [
-            [
-                InlineKeyboardButton('Yes',
-                                     callback_data=f'index#yes#{chat_id}#{last_msg_id}#{skip}')
-            ],
-            [
-                InlineKeyboardButton('close', callback_data='close_data'),
+        await message.delete()
+        await msg.delete()  # Now `msg` is initialized properly
+        if message.from_user.id in ADMINS:      
+            buttons = [
+                [
+                    InlineKeyboardButton('Yes', callback_data=f'index#yes#{chat_id}#{last_msg_id}#{skip}')
+                ],
+                [
+                    InlineKeyboardButton('Close', callback_data='close_data'),
+                ]
             ]
-        ]
-        reply_markup = InlineKeyboardMarkup(buttons)
-        return await message.reply(
-            f'Do you Want To Index This Channel/ Group ?\n\nChat ID/ Username: <code>{chat_id}</code>\nLast Message ID: <code>{last_msg_id}</code>',
-            reply_markup=reply_markup)
+            reply_markup = InlineKeyboardMarkup(buttons)
+            return await message.reply(
+                f'Do you want to index this channel/group?\n\nChat ID/Username: <code>{chat_id}</code>\nLast Message ID: <code>{last_msg_id}</code>',
+                reply_markup=reply_markup
+            )
  
     
     

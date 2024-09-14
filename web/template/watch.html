@@ -2,74 +2,197 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta property="og:image" content="https://i.ibb.co/M8S0Zzj/live-streaming.png" itemprop="thumbnailUrl">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>%s</title>
+    <title>Watch Stream</title>
     <link rel="stylesheet" type='text/css' href="https://drive----google.com/uc?export=view&id=1pVLG4gZy7jdow3sO-wFS06aP_A9QX0O6">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Delius">
     <link rel="stylesheet" href="https://cdn.plyr.io/3.6.9/plyr.css" />
 
-
-<style>
-      marquee{
-      font-size: 30px;
-      font-weight: 800;
-      color: Blue;
-      font-family: sans-serif;
-      }
-    </style>
     <style>
-      marquee{
-      font-size: 30px;
-      font-weight: 800;
-      color: Blue;
-      font-family: sans-serif;
-      }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        .container {
+            margin-top: 20px;
+            padding: 10px;
+        }
+
+        marquee {
+            font-size: 30px;
+            font-weight: 800;
+            color: Blue;
+            font-family: sans-serif;
+            background-color: #f7f305;
+        }
+
+        .video-container {
+            border: 2px solid red;
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 10px;
+            position: relative;
+        }
+
+        video {
+            width: 100%;
+            height: auto;
+        }
+
+        .player-controls {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 10px;
+            background-color: #111;
+        }
+
+        .player-controls button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .player-controls button:hover {
+            color: yellow;
+        }
+
+        .apps-container {
+            margin-top: 20px;
+        }
+
+        .apps-container h3 {
+            color: orange;
+            margin-bottom: 10px;
+        }
+
+        .app-buttons {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            padding: 10px;
+        }
+
+        .app-buttons a {
+            text-decoration: none;
+            color: white;
+            background-color: #333;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px;
+            display: inline-block;
+            width: 120px;
+            text-align: center;
+        }
+
+        .app-buttons a:hover {
+            background-color: #555;
+        }
+
+        footer {
+            margin-top: 20px;
+            padding: 10px;
+        }
+
+        .warning {
+            background-color: red;
+            padding: 10px;
+            border-radius: 8px;
+            color: white;
+            margin: 10px;
+        }
+
+        .contact {
+            background-color: green;
+            padding: 10px;
+            border-radius: 8px;
+            color: white;
+            margin: 10px;
+        }
     </style>
 </head>
 
 <body>
-	
+
     <header>
-        <marquee bgcolor="#f7f305"
-<div class="toogle"></div>
-        <div id="file-name">
-            %s
-        </div>
-</marquee>
+        <marquee>
+            <div class="toogle"></div>
+            <div id="file-name">
+                Watch Thangalaan 2024
+            </div>
+        </marquee>
     </header>
 
     <div class="container">
-        <tag src="%s" class="player"></tag>
+        <div class="video-container">
+            <video controls>
+                <source src="https://example.com/your-stream-url.m3u8" type="application/x-mpegURL">
+                Your browser does not support the video tag.
+            </video>
+
+            <div class="player-controls">
+                <button>&lt;&lt;</button>
+                <button>Play</button>
+                <button>||</button>
+                <button>&gt;&gt;</button>
+                <button>🔊</button>
+            </div>
+        </div>
+
+        <div class="apps-container">
+            <h3>Play with...</h3>
+            <div class="app-buttons">
+                <a href="#">VLC Player</a>
+                <a href="#">Mx Player</a>
+                <a href="#">Play-it</a>
+                <a href="#">KM Player</a>
+                <a href="#">S Player</a>
+                <a href="#">HD Player (4K)</a>
+            </div>
+        </div>
     </div>
 
     <footer>
-	    <center><h4>Video not playing? Possibly because your browser or the player doesn't support codec. Please download and watch.</h4></center>
-	    
+        <div class="warning">
+            Video not playing? Possibly because your browser or the player doesn't support codec. Please download and watch.
+        </div>
+        <div class="contact">
+            If you find any broken links then please contact <strong>gratexABCD</strong>
+        </div>
     </footer>
+
     <script src="https://cdn.plyr.io/3.6.9/plyr.js"></script>
-	<script>
+    <script>
         const controls = [
-              'play-large',
-              'rewind',
-              'play', 
-              'fast-forward', 
-              'progress', 
-              'current-time',
-              'duration',
-              'mute',
-              'volume',
-              'captions',
-              'settings',
-              'pip',
-              'airplay',
-              'download',
-              'fullscreen'
-            ];
+            'play-large',
+            'rewind',
+            'play',
+            'fast-forward',
+            'progress',
+            'current-time',
+            'duration',
+            'mute',
+            'volume',
+            'captions',
+            'settings',
+            'pip',
+            'airplay',
+            'download',
+            'fullscreen'
+        ];
+
         document.addEventListener('DOMContentLoaded', () => {
-            const player = Plyr.setup('.player', { controls });
+            const player = Plyr.setup('video', { controls });
         });
 
         const body = document.querySelector('body');

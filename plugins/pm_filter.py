@@ -502,9 +502,12 @@ async def cb_handler(client: Client, query: CallbackQuery):
         )
         return 
                 
-    async def safe_edit_message(query, new_reply_markup):
+    import pyrogram
+from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+
+async def safe_edit_message(query, new_reply_markup):
     try:
-        # रिप्लाई मार्कअप चेक करें, अगर पहले से अलग है तब ही अपडेट करें
+        # Check if the reply markup is different, only then update
         if query.message.reply_markup != new_reply_markup:
             await query.edit_message_reply_markup(reply_markup=new_reply_markup)
         else:
@@ -512,25 +515,26 @@ async def cb_handler(client: Client, query: CallbackQuery):
     except pyrogram.errors.exceptions.bad_request_400.MessageNotModified:
         print("Message was not modified as no changes were made.")
 
-
-elif query.data.startswith("checksub"):
-    ident, mc = query.data.split("#")
-    settings = await get_settings(int(mc.split("_", 2)[1]))
-    btn = await is_subscribed(client, query, settings['fsub'])
-    
-    if btn:
-        await query.answer(
-            f"Hello {query.from_user.first_name},\nPlease join my updates channel and try again.", 
-            show_alert=True
-        )
-        btn.append(
-            [InlineKeyboardButton("🔁 Try Again 🔁", callback_data=f"checksub#{mc}")]
-        )
-        await safe_edit_message(query, InlineKeyboardMarkup(btn))  # यहाँ सुरक्षित रूप से रिप्लाई मार्कअप एडिट किया जाएगा
-        return
-    
-    await query.answer(url=f"https://t.me/{temp.U_NAME}?start={mc}")
-    await query.message.delete()
+async def handle_callback_query(client, query):
+    # Example: check for a specific condition
+    if query.data.startswith("checksub"):
+        ident, mc = query.data.split("#")
+        settings = await get_settings(int(mc.split("_", 2)[1]))
+        btn = await is_subscribed(client, query, settings['fsub'])
+        
+        if btn:
+            await query.answer(
+                f"Hello {query.from_user.first_name},\nPlease join my updates channel and try again.", 
+                show_alert=True
+            )
+            btn.append(
+                [InlineKeyboardButton("🔁 Try Again 🔁", callback_data=f"checksub#{mc}")]
+            )
+            await safe_edit_message(query, InlineKeyboardMarkup(btn))  # Safely edit the reply markup here
+            return
+        
+        await query.answer(url=f"https://t.me/{temp.U_NAME}?start={mc}")
+        await query.message.delete()
 
     elif query.data.startswith("unmuteme"):
         ident, chatid = query.data.split("#")

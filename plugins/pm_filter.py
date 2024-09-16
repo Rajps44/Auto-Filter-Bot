@@ -502,19 +502,35 @@ async def cb_handler(client: Client, query: CallbackQuery):
         )
         return 
                 
-    elif query.data.startswith("checksub"):
-        ident, mc = query.data.split("#")
-        settings = await get_settings(int(mc.split("_", 2)[1]))
-        btn = await is_subscribed(client, query, settings['fsub'])
-        if btn:
-            await query.answer(f"Hello {query.from_user.first_name},\nPlease join my updates channel and try again.", show_alert=True)
-            btn.append(
-                [InlineKeyboardButton("🔁 Try Again 🔁", callback_data=f"checksub#{mc}")]
-            )
-            await query.edit_message_reply_markup(reply_markup=InlineKeyboardMarkup(btn))
-            return
-        await query.answer(url=f"https://t.me/{temp.U_NAME}?start={mc}")
-        await query.message.delete()
+    async def safe_edit_message(query, new_reply_markup):
+    try:
+        # रिप्लाई मार्कअप चेक करें, अगर पहले से अलग है तब ही अपडेट करें
+        if query.message.reply_markup != new_reply_markup:
+            await query.edit_message_reply_markup(reply_markup=new_reply_markup)
+        else:
+            print("Message not modified because content is the same.")
+    except pyrogram.errors.exceptions.bad_request_400.MessageNotModified:
+        print("Message was not modified as no changes were made.")
+
+
+elif query.data.startswith("checksub"):
+    ident, mc = query.data.split("#")
+    settings = await get_settings(int(mc.split("_", 2)[1]))
+    btn = await is_subscribed(client, query, settings['fsub'])
+    
+    if btn:
+        await query.answer(
+            f"Hello {query.from_user.first_name},\nPlease join my updates channel and try again.", 
+            show_alert=True
+        )
+        btn.append(
+            [InlineKeyboardButton("🔁 Try Again 🔁", callback_data=f"checksub#{mc}")]
+        )
+        await safe_edit_message(query, InlineKeyboardMarkup(btn))  # यहाँ सुरक्षित रूप से रिप्लाई मार्कअप एडिट किया जाएगा
+        return
+    
+    await query.answer(url=f"https://t.me/{temp.U_NAME}?start={mc}")
+    await query.message.delete()
 
     elif query.data.startswith("unmuteme"):
         ident, chatid = query.data.split("#")

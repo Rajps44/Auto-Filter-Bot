@@ -99,7 +99,7 @@ async def start(client, message):
                 InlineKeyboardButton("📌 Get File 📌", url=f'https://t.me/{temp.U_NAME}?start={verify_status["link"]}')
             ]]
             reply_markup = InlineKeyboardMarkup(btn)
-        await message.reply(f"✅ You successfully verified until: {get_readable_time(VERIFY_EXPIRE)}", reply_markup=reply_markup, protect_content=PROTECT_CONTENT)
+        await message.reply(f"✅ You successfully verified until: {get_readable_time(VERIFY_EXPIRE)}", reply_markup=reply_markup, protect_content=settings['file_secure'])
         return
     
     verify_status = await get_verify_status(message.from_user.id)
@@ -113,7 +113,7 @@ async def start(client, message):
             ],[
                 InlineKeyboardButton('🗳 Tutorial 🗳', url=VERIFY_TUTORIAL)
             ]]
-            await message.reply("You not verified today! Kindly verify now. 🔐", reply_markup=InlineKeyboardMarkup(btn), protect_content=False)
+            await message.reply("You not verified today! Kindly verify now. 🔐", reply_markup=InlineKeyboardMarkup(btn), settings['file_secure'])
             return
     else:
         pass
@@ -167,7 +167,7 @@ async def start(client, message):
                 chat_id=message.from_user.id,
                 file_id=file.file_id,
                 caption=f_caption,
-                protect_content=PROTECT_CONTENT,
+                protect_content=settings['file_secure'],
                 reply_markup=InlineKeyboardMarkup(btn)
             )
         return
@@ -217,7 +217,7 @@ async def start(client, message):
         chat_id=message.from_user.id,
         file_id=file_id,
         caption=f_caption,
-        protect_content=PROTECT_CONTENT,
+        protect_content=settings['file_secure'],
         reply_markup=InlineKeyboardMarkup(btn)
     )
 

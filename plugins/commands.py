@@ -167,7 +167,7 @@ async def start(client, message):
                 chat_id=message.from_user.id,
                 file_id=file.file_id,
                 caption=f_caption,
-                protect_content=msg.get('protect', False),
+                protect_content=settings['file_secure'],
                 reply_markup=InlineKeyboardMarkup(btn)
             )
         return
@@ -217,7 +217,7 @@ async def start(client, message):
         chat_id=message.from_user.id,
         file_id=file_id,
         caption=f_caption,
-        protect_content=msg.get('protect', False),
+        protect_content=settings['file_secure'],
         reply_markup=InlineKeyboardMarkup(btn)
     )
 
